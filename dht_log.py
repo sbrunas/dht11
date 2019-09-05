@@ -5,6 +5,8 @@ import sys
 import time
 import Adafruit_DHT
 
+import datetime
+
 #--------------------------------PATH LOG FILE--------------------------------
 log_path = "/home/pi/log/iot/"
 
