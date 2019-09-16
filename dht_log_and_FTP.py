@@ -86,9 +86,9 @@ def upload_file(file):
 try:
 
 	while True:
-
+		print("getting temperature and humidity")
 		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)   # Read the humidity and temperature pin = GPIO 23
-
+		print("check the date and the file name")
 # ----------------------------Check the date and the file name----------------------------------------------------------
 		if date_now != str(datetime.datetime.now().strftime("%Y-%m-%d")):
 
@@ -102,6 +102,7 @@ try:
 			file_name = date_now + "_dht.log"
 
 # ------------------------Check if we can read the sensor, write the log file ------------------------------------------
+		print("check if we can read the sensor")
 		if humidity is not None and temperature is not None:
 			write_log("DHT Sensor - temperature in ºC: %s" % str(temperature)) # write temperature
 			write_log("DHT Sensor - humidity in %:  %s" % str(humidity))	   # write humidity
@@ -110,6 +111,7 @@ try:
 
 		time.sleep(1)														   # wait 1 second
 # --------------------------------Check the hour------------------------------------------------------------------------
+		print("check the hour")
 		if datetime.datetime.now().strftime("%H-%M-%S") == '17-00-00':
 
 			for line in fileinput.input(log_path + file_name):
@@ -131,6 +133,6 @@ try:
 			ftp.quit()
 
 # --------------------------------Write error to log file --------------------------------------------------------------
-
+print("end of the program")
 except Exception as e:
 	write_log(str(e))
