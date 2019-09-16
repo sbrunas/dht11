@@ -4,7 +4,6 @@
 import sys
 import time
 import Adafruit_DHT
-
 import datetime
 
 #--------------------------------PATH LOG FILE--------------------------------

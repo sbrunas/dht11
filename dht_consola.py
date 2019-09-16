@@ -1,11 +1,13 @@
 #!/usr/bin/python
 
-# Internet de las Cosas - http://internetdelascosas.cl
+# Proyecto Phenocam PUCV
 #
 # Descripcion  : Programa que permite obtener la lectura de un sensor DHT11 
 # Lenguaje     : Python
-# Autor        : Jose Zorrilla <jzorrilla@iot.cl>
-# Dependencias : Libreria de Adafruit https://github.com/adafruit/Adafruit_Python_DHT
+# Autor        : Sebastian Bruna <sebastian.bruna.s@mail.pucv.cl>
+# Dependencias : Librerias:
+# 					- Adafruit https://github.com/adafruit/Adafruit_Python_DHT
+#					- time
 # Web          : http://internetdelascosas.cl/
  
 # Importa las librerias necesarias 
