@@ -110,7 +110,7 @@ try:
 
 		time.sleep(1)														   # wait 1 second
 # --------------------------------Check the hour------------------------------------------------------------------------
-		if datetime.datetime.now().strftime("%H-%M-%S") == "16-35-00":
+		if datetime.datetime.now().strftime("%H-%M-%S") == '17-00-00':
 
 			for line in fileinput.input(log_path + file_name):
 				lastlist.append(line.rstrip("\n"))					# append the current text to "lastlist"
