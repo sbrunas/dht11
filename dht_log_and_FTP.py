@@ -104,8 +104,8 @@ try:
 # ------------------------Check if we can read the sensor, write the log file ------------------------------------------
 		print("check if we can read the sensor")
 		if humidity is not None and temperature is not None:
-			write_log("DHT Sensor - temperature in ºC: %s" % str(temperature)) # write temperature
-			write_log("DHT Sensor - humidity in %:  %s" % str(humidity))	   # write humidity
+			write_log("DHT Sensor - temperature is: %s" % str(temperature)) # write temperature
+			write_log("DHT Sensor - humidity is :  %s" % str(humidity))	   # write humidity
 		else:
 			write_log("Can't get data from the sensor") 					#write to the log file error in the sensor.
 
@@ -133,6 +133,5 @@ try:
 			ftp.quit()
 
 # --------------------------------Write error to log file --------------------------------------------------------------
-print("end of the program")
 except Exception as e:
 	write_log(str(e))
