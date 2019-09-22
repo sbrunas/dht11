@@ -19,6 +19,13 @@ import datetime
 from ftplib import FTP
 import os
 import fileinput
+import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
+
+# --------------------------------GPIO CONFIG---------------------------------------------------------------------------
+GPIO.setwarnings(False)     # Ignore warning for now
+GPIO.setmode(GPIO.BOARD)    # Use physical pin numbering
+camera_pin = 17
+GPIO.setup(camera_pin, GPIO.OUT, initial=GPIO.LOW)   # Set pin 17 to be an output pin and set initial value to low (off)
 
 # --------------------------------CONNECT FTP SERVER--------------------------------------------------------------------
 ftp = FTP()
@@ -42,14 +49,31 @@ sensor = Adafruit_DHT.DHT11
 # --------------------------------CONFIG GPIO 23 FOR DHT11 DATA---------------------------------------------------------
 pin = 23
 
+# --------------------------------SET THE PIN 17 HIGH TO TURN ON THE CAMERA --------------------------------------------
+def turn_on_device ():
+    """
+    :return: None
+    Body: Function to turn on the camera.
+    """
+    GPIO.output(camera_pin, GPIO.HIGH)  # Turn on
+
+
+# --------------------------------SET THE PIN 17 OFF TO TURN ON THE CAMERA ---------------------------------------------
+def turn_off_device():
+    """
+    :return: None
+    Body: Function to turn off the camera.
+    """
+    GPIO.output(camera_pin, GPIO.LOW)  # Turn off
+
 # --------------------------------WRITE THE LOG FILE WITH THE NAME yyyy-mm-dd_dht.log-----------------------------------
 def write_log(text):
     """
-	Function to write the actual temperature in C and humidity in %
-	:param text: get in to the string to write
-	:return: nothing
+    :param text: get in to the string to write
+    :return: nothing
+    Body: Function to write the actual temperature in C and humidity in %
 
-	"""
+    """
     log = open(log_path + file_name, "a")  # Open /home/pi/log/iot/ with file_name
 
     # EJ: 2019-09-10 11:00:00 Temperatura=22.0*  Humedad=60.0%
@@ -61,11 +85,11 @@ def write_log(text):
 # --------------------------------SEND FILE-----------------------------------------------------------------------------
 def ftp_upload(localfile, remotefile):
     """
-	:param localfile: 
-	:param remotefile: 
-	:return: print "after upload + localfile to remotefile"
-	This function take the path + file_name and open in "fp" and uppload the file via FTP
-	Finally close the FTP connection
+    :param localfile:
+    :param remotefile:
+    :return: print "after upload + localfile to remotefile"
+    Body: This function take the path + file_name and open in "fp" and uppload the file via FTP
+          Finally close the FTP connection
 
 	"""
     fp = open(localfile, 'rb')  # r+ is for read & write, rb read binary file
@@ -79,11 +103,11 @@ def ftp_upload(localfile, remotefile):
 # --------------------------------SEND IMG------------------------------------------------------------------------------
 def upload_file(file):
     """
-	:param file: name of the current file to be upload
-	:return: None
-	This function call the ftp_upload function and concat the local path + name of the current file to be upload.
+    :param file: name of the current file to be upload
+    :return: None
+    Body. This function call the ftp_upload function and concat the local path + name of the current file to be upload.
 
-	"""
+    """
     ftp_upload(log_path + file, file)
 
 
@@ -91,9 +115,6 @@ def upload_file(file):
 try:
 
     while True:
-        print("getting temperature and humidity")
-        humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)  # Read the humidity and temperature pin = GPIO 23
-        print("check the date and the file name")
 # ----------------------------Check the date and the file name----------------------------------------------------------
         if date_now != str(datetime.datetime.now().strftime('%Y-%m-%d')):
 
@@ -107,16 +128,23 @@ try:
             file_name = date_now + '_dht.log'
 
 # ------------------------Check if we can read the sensor, write the log file ------------------------------------------
-        print("check if we can read the sensor")
+       # print("getting temperature and humidity")
+        humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)  # Read the humidity and temperature pin = GPIO 23
+       # print("check the date and the file name")
+
+       # print("check if we can read the sensor")
         if humidity is not None and temperature is not None:
             write_log("DHT Sensor - temperature is: %s" % str(temperature))  # write temperature
             write_log("DHT Sensor - humidity is :  %s" % str(humidity))  # write humidity
         else:
             write_log("Can't get data from the sensor")  # write to the log file error in the sensor.
 
-        time.sleep(1)  # wait 1 second
-# --------------------------------Check the hour------------------------------------------------------------------------
-        print("check the hour")
+       # time.sleep(1)  # wait 1 second
+# --------------------------------Check the hour to turn on the camera -------------------------------------------------
+        if the
+
+# --------------------------------Check the hour to send files ---------------------------------------------------------
+       # print("check the hour")
         if datetime.datetime.now().strftime('%S') == str(check_sec):
 
 
