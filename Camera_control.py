@@ -22,7 +22,7 @@ import smtplib, ssl
 GPIO.setwarnings(False)  # Ignore warning for now
 GPIO.setmode(GPIO.BOARD)  # Use physical pin numbering
 camera_pin = 17
-GPIO.setup(camera_pin, GPIO.OUT, initial=GPIO.LOW)  # Set pin 17 to be an output pin and set initial value to low (off)
+GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)  # Set pin 17 to be an output pin and set initial value to low (off)
 # --------------------------------DATE VAR------------------------------------------------------------------------------
 date_now = ""
 date_count = 0
