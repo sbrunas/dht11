@@ -20,7 +20,7 @@ import smtplib, ssl
 
 # --------------------------------GPIO CONFIG---------------------------------------------------------------------------
 GPIO.setwarnings(False)  # Ignore warning for now
-GPIO.setmode(GPIO.BOARD)  # Use physical pin numbering
+GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
 camera_pin = 17
 GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)  # Set pin 17 to be an output pin and set initial value to low (off)
 # --------------------------------DATE VAR------------------------------------------------------------------------------
@@ -72,6 +72,11 @@ def turn_off_device():
     GPIO.output(camera_pin, GPIO.LOW)  # Turn off
 
 
+def raise_email(e):
+    send_alert()
+    raise e
+
+
 # --------------------------------PROGRAM-------------------------------------------------------------------------------
 try:
 
@@ -83,8 +88,8 @@ try:
                 turn_on_device()
         else:
             turn_off_device()
-            send_alert()
+            #send_alert()
 
 # --------------------------------Write error to log file --------------------------------------------------------------
-except:
-    send_alert()
+except Exception as e:
+    raise_email(e)
