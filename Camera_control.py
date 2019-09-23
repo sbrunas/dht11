@@ -26,8 +26,8 @@ GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)  # Set pin 17 to be an output pin and
 # --------------------------------DATE VAR------------------------------------------------------------------------------
 date_now = ""
 date_count = 0
-check_hour_on = '10:42:00'
-check_hour_off = '10:44:00'
+check_hour_on = '10:50:00'
+check_hour_off = '10:51:00'
 
 # -create a secure connection with gmail SMTP server using SMTP_SSL() of smtplib to initiate a TLS-encrypted connecton--
 
@@ -46,6 +46,10 @@ Subject: camera power on success.
 
 This message is sent from phenocam control one."""
 
+message_power_off = """\
+Subject: camera power off success.
+
+This message is sent from phenocam control one."""
 # --------------------------------send email aler to phenocam.pucv@gmail.com -------------------------------------------
 def send_alert():
     """
@@ -56,7 +60,7 @@ def send_alert():
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
-def send_ok():
+def send_ok_on():
     """
 
     :return:
@@ -66,6 +70,16 @@ def send_ok():
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message_power_on)
+def send_ok_off():
+    """
+
+    :return:
+    Body:
+    """
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message_power_off)
 # --------------------------------SET THE PIN 17 HIGH TO TURN ON THE CAMERA --------------------------------------------
 def turn_on_device():
     """
@@ -97,12 +111,13 @@ try:
         # --------------------------------Check the hour------------------------------------------------------------------------
         # print("check the hour")
         if datetime.datetime.now().strftime('%H:%M:%S') == str(check_hour_on):
-            print(datetime.datetime.now().strftime('%H:%M:%S'))
-            print(check_hour_on)
+            #print(datetime.datetime.now().strftime('%H:%M:%S'))
+            #print(check_hour_on)
+            send_ok()
             while datetime.datetime.now().strftime('%H:%M:%S') != check_hour_off:
-                print("on")
+                #print("on")
                 turn_on_device()
-                send_ok()
+            send_ok_off()
         else:
             turn_off_device()
             #send_alert()
