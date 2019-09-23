@@ -97,7 +97,10 @@ try:
         # --------------------------------Check the hour------------------------------------------------------------------------
         # print("check the hour")
         if datetime.datetime.now().strftime('%H:%M:%S') == str(check_hour_on):
+            print(datetime.datetime.now().strftime('%H:%M:%S'))
+            print(check_hour_on)
             while datetime.datetime.now().strftime('%H:%M:%S') != check_hour_off:
+                print(on)
                 turn_on_device()
                 send_ok()
         else:
