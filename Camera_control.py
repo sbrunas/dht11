@@ -74,6 +74,7 @@ def turn_off_device():
 
 def raise_email(e):
     send_alert()
+    turn_off_device()
     raise e
 
 
@@ -87,7 +88,7 @@ try:
             while datetime.datetime.now().strftime('%H:%M:%S') != check_hour_off:
                 turn_on_device()
         else:
-            turn_off_device()
+            turn_on_device()
             #send_alert()
 
 # --------------------------------Write error to log file --------------------------------------------------------------
