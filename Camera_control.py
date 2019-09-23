@@ -26,8 +26,8 @@ GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)  # Set pin 17 to be an output pin and
 # --------------------------------DATE VAR------------------------------------------------------------------------------
 date_now = ""
 date_count = 0
-check_hour_on = '10:50:00'
-check_hour_off = '10:51:00'
+check_hour_on = '10:52:00'
+check_hour_off = '10:53:00'
 
 # -create a secure connection with gmail SMTP server using SMTP_SSL() of smtplib to initiate a TLS-encrypted connecton--
 
@@ -113,7 +113,7 @@ try:
         if datetime.datetime.now().strftime('%H:%M:%S') == str(check_hour_on):
             #print(datetime.datetime.now().strftime('%H:%M:%S'))
             #print(check_hour_on)
-            send_ok()
+            send_ok_on()
             while datetime.datetime.now().strftime('%H:%M:%S') != check_hour_off:
                 #print("on")
                 turn_on_device()
