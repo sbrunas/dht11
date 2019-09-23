@@ -26,8 +26,8 @@ GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)  # Set pin 17 to be an output pin and
 # --------------------------------DATE VAR------------------------------------------------------------------------------
 date_now = ""
 date_count = 0
-check_hour_on = '11:00:00'
-check_hour_off = '15:00:00'
+check_hour_on = '10:36:00'
+check_hour_off = '10:38:00'
 
 # -create a secure connection with gmail SMTP server using SMTP_SSL() of smtplib to initiate a TLS-encrypted connecton--
 
@@ -41,6 +41,10 @@ Subject: camera power on error.
 
 This message is sent from phenocam control one."""
 
+message_power_on = """\
+Subject: camera power on success.
+
+This message is sent from phenocam control one."""
 
 # --------------------------------send email aler to phenocam.pucv@gmail.com -------------------------------------------
 def send_alert():
@@ -52,8 +56,16 @@ def send_alert():
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
+def send_ok():
+    """
 
-
+    :return:
+    Body:
+    """
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message_power_on)
 # --------------------------------SET THE PIN 17 HIGH TO TURN ON THE CAMERA --------------------------------------------
 def turn_on_device():
     """
@@ -87,8 +99,9 @@ try:
         if datetime.datetime.now().strftime('%H:%M:%S') == str(check_hour_on):
             while datetime.datetime.now().strftime('%H:%M:%S') != check_hour_off:
                 turn_on_device()
+                send_ok()
         else:
-            turn_on_device()
+            turn_off_device()
             #send_alert()
 
 # --------------------------------Write error to log file --------------------------------------------------------------
