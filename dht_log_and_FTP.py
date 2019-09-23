@@ -114,7 +114,7 @@ check_hour = '16:45'    # hour to send the file via FTP
 sensor = Adafruit_DHT.DHT11
 
 # --------------------------------CONFIG GPIO 23 FOR DHT11 DATA---------------------------------------------------------
-pin = 23_
+pin = 23
 
 # --------------------------------WRITE THE LOG FILE WITH THE NAME yyyy-mm-dd_dht.log-----------------------------------
 def write_log(text, fName):
