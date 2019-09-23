@@ -91,5 +91,7 @@ try:
             #send_alert()
 
 # --------------------------------Write error to log file --------------------------------------------------------------
+except KeyboardInterrupt as e:
+    raise_email(e)
 except Exception as e:
     raise_email(e)
