@@ -26,8 +26,8 @@ GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)  # Set pin 17 to be an output pin and
 # --------------------------------DATE VAR------------------------------------------------------------------------------
 date_now = ""
 date_count = 0
-check_hour_on = '10:52:00'
-check_hour_off = '10:53:00'
+check_hour_on = '11:00:00'
+check_hour_off = '15:00:00'
 
 # -create a secure connection with gmail SMTP server using SMTP_SSL() of smtplib to initiate a TLS-encrypted connecton--
 
@@ -36,21 +36,22 @@ smtp_server = 'smtp.gmail.com'
 sender_email = 'phenocam.pucv@gmail.com'
 receiver_email = 'phenocam.pucv@gmail.com'
 password = 'labgrs2019'
+#body message to alert and error in the program ocurrs
 message = """\
 Subject: camera power on error.
 
 This message is sent from phenocam control one."""
-
+#body message to alert the camera its was turned on
 message_power_on = """\
 Subject: camera power on success.
 
 This message is sent from phenocam control one."""
-
+#body message to alert the camera its was turned off
 message_power_off = """\
 Subject: camera power off success.
 
 This message is sent from phenocam control one."""
-# --------------------------------send email aler to phenocam.pucv@gmail.com -------------------------------------------
+# --------------------------------send email alert to phenocam.pucv@gmail.com ------------------------------------------
 def send_alert():
     """
     :return:
@@ -60,21 +61,22 @@ def send_alert():
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
+# --------------------------------send email power on OK to phenocam.pucv@gmail.com ------------------------------------
 def send_ok_on():
     """
-
     :return:
-    Body:
+    Body: Create secure connection with server and send email
     """
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message_power_on)
+# --------------------------------send email power off OK to phenocam.pucv@gmail.com -----------------------------------
 def send_ok_off():
     """
 
     :return:
-    Body:
+    Body: Create a secure connection with server and send email
     """
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
@@ -97,11 +99,11 @@ def turn_off_device():
     """
     GPIO.output(camera_pin, GPIO.LOW)  # Turn off
 
-
+# --------------------------------DATE VAR------------------------------------------------------------------------------
 def raise_email(e):
-    send_alert()
-    turn_off_device()
-    raise e
+    send_alert()    # calls the email send function
+    turn_off_device()   # calls the turn off device to power down the camera
+    raise e # raise the corresponding error
 
 
 # --------------------------------PROGRAM-------------------------------------------------------------------------------
