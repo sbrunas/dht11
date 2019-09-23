@@ -96,11 +96,11 @@ ftp = FTP()
 ftp.set_debuglevel(2)
 ftp.connect('201.215.167.63', 21)
 ftp.login('pi', '_4oYiEmqVUFl')
-ftp.cwd("/home/pi/nextcloud/data/__groupfolders/1/log_T_H/")
+ftp.cwd("/home/pi/nextcloud/data/__groupfolders/1/log")
 
 # --------------------------------PATH LOG FILE-------------------------------------------------------------------------
 log_path = "/home/pi/log/iot/"
-server_path = "/home/pi/nextcloud/data/__groupfolders/1/log_T_H/"
+server_path = "/home/pi/nextcloud/data/__groupfolders/1/log"
 lastlist = []
 file_name = ""
 # --------------------------------DATE VAR------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ check_hour = '16:45'    # hour to send the file via FTP
 sensor = Adafruit_DHT.DHT11
 
 # --------------------------------CONFIG GPIO 23 FOR DHT11 DATA---------------------------------------------------------
-pin = 23
+pin = 23_
 
 # --------------------------------WRITE THE LOG FILE WITH THE NAME yyyy-mm-dd_dht.log-----------------------------------
 def write_log(text, fName):
