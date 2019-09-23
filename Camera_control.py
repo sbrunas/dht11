@@ -110,7 +110,7 @@ def raise_email(e):
 try:
 
     while True:
-        # --------------------------------Check the hour------------------------------------------------------------------------
+# --------------------------------Check the hour------------------------------------------------------------------------
         # print("check the hour")
         if datetime.datetime.now().strftime('%H:%M:%S') == str(check_hour_on):
             #print(datetime.datetime.now().strftime('%H:%M:%S'))
