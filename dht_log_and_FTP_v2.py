@@ -195,26 +195,11 @@ try:
 # --------------------------------Check the hour------------------------------------------------------------------------
         print("check the hour")
         if datetime.datetime.now().strftime('%H:%M') == check_hour:
-
-            for line in fileinput.input(log_path + file_name):
-                lastlist.append(line.rstrip("\n"))  # append the current text to "lastlist"
-
-            currentlist = os.listdir(log_path)  # save the current files in the directory tu current list
-
-            newfiles = list(set(currentlist) - set(lastlist))
-            try:
-                if len(newfiles) == 0:
-                    print("No files need to upload")
-                else:
-                    for needupload in newfiles:
-                        print("uploading " + log_path + file_name + needupload)
-                        upload_file(needupload)
-                        with open(log_path + file_name, "a") as myfile:
-                            myfile.write(needupload + "\n")
-                    fileSend_ok()
-            except Exception as e:
-                fileSend_error(e)
+            with open(log_path + file_name, 'r') as f:
+                ftp.storlines('STOR %s' % 'remotefile.txt', f)
             ftp.quit()
+
+
 
 # --------------------------------Write error to log file --------------------------------------------------------------
 except Exception as e:
