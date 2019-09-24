@@ -110,7 +110,7 @@ date_count = 0
 hour_now = datetime.datetime.now().strftime('%M')
 half_an_hour_zero = '00'
 half_an_hour = '30'
-check_hour = '22:30'    # hour to send the file via FTP
+check_hour = '22:37'    # hour to send the file via FTP
 # --------------------------------CONF TYPE OF SENSOR-------------------------------------------------------------------
 sensor = Adafruit_DHT.DHT11
 
@@ -208,7 +208,7 @@ try:
 
             #print("uploading " + log_path + file_name + needupload)
             print("uploading " + log_path + file_name)
-            upload_file(log_path + file_name)
+            upload_file(file_name)
             with open(log_path + file_name, "a") as myfile:
                 myfile.write(log_path + file_name + "\n")
             fileSend_ok()
