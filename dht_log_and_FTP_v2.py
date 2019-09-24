@@ -148,7 +148,9 @@ def ftp_upload(localfile, remotefile):
     # ftp.storbinary('STOR myfile.txt'.encode('utf-8'), open('myfile.txt'))
     fp = open(localfile, 'rb')
     try:
-        ftp.storbinary('STOR %s' % remotefile, fp, 1024)
+        #    ftp.storlines('STOR %s' % 'remotefile.txt', f)
+        # ftp.storbinary('STOR %s' % remotefile, fp)
+        ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
     except Exception:
         print("remotefile not exist error caught" + remotefile)
         path, filename = os.path.split(remotefile)
@@ -221,7 +223,7 @@ try:
 
 # --------------------------------Write error to log file --------------------------------------------------------------
 except Exception as e:
-    write_log(str(e))
+    write_log(str(e), file_name)
     general_error(e)
 
 except KeyboardInterrupt as e:
