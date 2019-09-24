@@ -146,7 +146,17 @@ def ftp_upload(localfile, remotefile):
     fp = open(localfile, 'rb')  # r+ is for read & write, rb read binary file
 
     # ftp.storbinary('STOR myfile.txt'.encode('utf-8'), open('myfile.txt'))
-    ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
+    fp = open(localfile, 'rb')
+    try:
+        ftp.storbinary('STOR %s' % remotefile, fp, 1024)
+    except Exception:
+        print("remotefile not exist error caught" + remotefile)
+        path, filename = os.path.split(remotefile)
+        print("creating directory: " + remotefile)
+        ftp.mkd(path)
+        ftp_upload(localfile, remotefile)
+        fp.close()
+        return
     fp.close()
     print("after upload " + localfile + " to " + remotefile)
 
@@ -195,8 +205,16 @@ try:
 # --------------------------------Check the hour------------------------------------------------------------------------
         print("check the hour")
         if datetime.datetime.now().strftime('%H:%M') == check_hour:
-            with open(log_path + file_name, 'r') as f:
-                ftp.storlines('STOR %s' % 'remotefile.txt', f)
+
+            #print("uploading " + log_path + file_name + needupload)
+            print("uploading " + log_path + file_name)
+            upload_file(log_path + file_name)
+            with open(log_path + file_name, "a") as myfile:
+                myfile.write(log_path + file_name + "\n")
+            fileSend_ok()
+
+            #with open(log_path + file_name, 'r') as f:
+            #    ftp.storlines('STOR %s' % 'remotefile.txt', f)
             ftp.quit()
 
 
