@@ -177,7 +177,7 @@ try:
 
     while True:
 
-        print("check the date and the file name")
+        #print("check the date and the file name")
 # ----------------------------Check the date and the file name----------------------------------------------------------
         if date_now != str(datetime.datetime.now().strftime('%Y-%m-%d')):
 
@@ -192,9 +192,9 @@ try:
 
 # ------------------------Check if we can read the sensor, write the log file ------------------------------------------
         if (datetime.datetime.now().strftime('%S') == half_an_hour_zero) or (datetime.datetime.now().strftime('%S') == half_an_hour):
-            print("getting temperature and humidity")
+            #print("getting temperature and humidity")
             humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)  # Read the humidity and temperature pin = GPIO 23
-            print("check if we can read the sensor")
+            #print("check if we can read the sensor")
             if humidity is not None and temperature is not None:
                 write_log("DHT Sensor - temperature is: %s" % str(temperature), file_name)  # write temperature
                 write_log("DHT Sensor - humidity is :  %s" % str(humidity), file_name)  # write humidity
@@ -203,7 +203,7 @@ try:
                 sensor_read_error()
 
 # --------------------------------Check the hour------------------------------------------------------------------------
-        print("check the hour")
+        #print("check the hour")
         if datetime.datetime.now().strftime('%H:%M') == check_hour:
 
             #print("uploading " + log_path + file_name + needupload)
