@@ -1,7 +1,7 @@
 import ftplib
 ftp = ftplib.FTP('201.215.167.63', 'pi', '_4oYiEmqVUFl')
 ftp.cwd('/')
-filematch = '*.txt'
+filematch = 'ftptest.txt'
 target_dir = '/home/pi/nextcloud/data/__groupfolders/1/log'
 import os
 
