@@ -154,11 +154,24 @@ def ftp_upload(localfile, remotefile):
 
     """
     fp = open(localfile, 'rb')  # r+ is for read & write, rb read binary file
-
-    # ftp.storbinary('STOR myfile.txt'.encode('utf-8'), open('myfile.txt'))
-    ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
+    try:
+        #    ftp.storlines('STOR %s' % 'remotefile.txt', f)
+        # ftp.storbinary('STOR %s' % remotefile, fp)
+        ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
+    except Exception:
+        print("remotefile not exist error caught" + remotefile)
+        path, filename = os.path.split(remotefile)
+        print("creating directory: " + remotefile)
+        ftp.mkd(path)
+        ftp_upload(localfile, remotefile)
+        fp.close()
+        return
     fp.close()
     print("after upload " + localfile + " to " + remotefile)
+    # ftp.storbinary('STOR myfile.txt'.encode('utf-8'), open('myfile.txt'))
+    # ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
+    # fp.close()
+    # print("after upload " + localfile + " to " + remotefile)
 
 
 # --------------------------------SEND IMG------------------------------------------------------------------------------
@@ -179,15 +192,15 @@ try:
 
         # print("check the date and the file name")
         # ----------------------------Check the date and the file name----------------------------------------------------------
-        if date_now != str(datetime.datetime.now().strftime('%Y-%m-%d')):
+        if date_now != str(datetime.datetime.now().strftime('%H-%M')):
 
-            date_now = str(datetime.datetime.now().strftime('%Y-%m-%d'))  # save the actual day
+            date_now = str(datetime.datetime.now().strftime('%H-%M'))  # save the actual day
             file_name = date_now + '_dht.txt'  # save the actual file name
             date_count += 1  # add one to the day count
 
         else:
 
-            date_now = str(datetime.datetime.now().strftime('%Y-%m-%d'))
+            date_now = str(datetime.datetime.now().strftime('%H-%M'))
             file_name = date_now + '_dht.txt'
 
         # ------------------------Check if we can read the sensor, write the log file ------------------------------------------
