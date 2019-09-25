@@ -103,7 +103,7 @@ def turn_off_device():
 def raise_email(e):
     send_alert()    # calls the email send function
     turn_off_device()   # calls the turn off device to power down the camera
-    raise e # raise the corresponding error
+    print (e) # raise the corresponding error
 
 
 # --------------------------------PROGRAM-------------------------------------------------------------------------------
@@ -126,6 +126,6 @@ try:
 
 # --------------------------------Write error to log file --------------------------------------------------------------
 except KeyboardInterrupt as e:
-    raise_email(e)
+    raise_email(str(e))
 except Exception as e:
-    raise_email(e)
+    raise_email(str(e))

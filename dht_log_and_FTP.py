@@ -98,7 +98,7 @@ def general_error(e):
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message_error)
-    raise e
+    print(e)
 
 
 # --------------------------------CONNECT FTP SERVER--------------------------------------------------------------------
@@ -154,24 +154,25 @@ def ftp_upload(localfile, remotefile):
 
     """
     fp = open(localfile, 'rb')  # r+ is for read & write, rb read binary file
-    try:
-        #    ftp.storlines('STOR %s' % 'remotefile.txt', f)
-        # ftp.storbinary('STOR %s' % remotefile, fp)
-        ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
-    except Exception:
-        print("remotefile not exist error caught" + remotefile)
-        path, filename = os.path.split(remotefile)
-        print("creating directory: " + remotefile)
-        ftp.mkd(path)
-        ftp_upload(localfile, remotefile)
-        fp.close()
-        return
+    #try:
+    #    #    ftp.storlines('STOR %s' % 'remotefile.txt', f)
+    #    # ftp.storbinary('STOR %s' % remotefile, fp)
+    #    ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
+    #except Exception:
+    #    print("remotefile not exist error caught" + remotefile)
+    #    path, filename = os.path.split(remotefile)
+    #    print("creating directory: " + remotefile)
+    #    ftp.mkd(path)
+    #    ftp_upload(localfile, remotefile)
+    #    fp.close()
+    #    return
+    #fp.close()
+    #print("after upload " + localfile + " to " + remotefile)
+
+    #ftp.storbinary('STOR myfile.txt'.encode('utf-8'), open('myfile.txt'))
+    ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
     fp.close()
     print("after upload " + localfile + " to " + remotefile)
-    # ftp.storbinary('STOR myfile.txt'.encode('utf-8'), open('myfile.txt'))
-    # ftp.storbinary('STOR %s' % os.path.basename(localfile), fp, 1024)
-    # fp.close()
-    # print("after upload " + localfile + " to " + remotefile)
 
 
 # --------------------------------SEND IMG------------------------------------------------------------------------------
