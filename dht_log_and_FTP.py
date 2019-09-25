@@ -22,6 +22,7 @@ import fileinput
 import smtplib, ssl
 
 # -create a secure connection with gmail SMTP server using SMTP_SSL() of smtplib to initiate a TLS-encrypted connecton--
+from sympy.codegen.cnodes import goto
 
 port = 465  # For SSL
 smtp_server = 'smtp.gmail.com'
@@ -29,27 +30,28 @@ sender_email = 'phenocam.pucv@gmail.com'
 receiver_email = 'phenocam.pucv@gmail.com'
 password = 'labgrs2019'
 
-#body message to alert if the file was send
+# body message to alert if the file was send
 message_fileSend = """\
 Subject: dht11 log send ok.
 
 This message is sent from phenocam control one."""
-#body message to alert if we can't read the sensor
+# body message to alert if we can't read the sensor
 message_sensor_error = """\
 Subject: camera power on success.
 
 This message is sent from phenocam control one."""
-#body message to alert if we can't send the file
+# body message to alert if we can't send the file
 message_fileSend_error = """\
 Subject: error in sending the file via FTP.
 
 This message is sent from phenocam control one."""
 
-#body message to alert general error
+# body message to alert general error
 message_error = """\
 Subject: general error.
 
 This message is sent from phenocam control one."""
+
 
 # --------------------------------send email read dht11 error to phenocam.pucv@gmail.com -------------------------------
 def sensor_read_error():
@@ -61,6 +63,8 @@ def sensor_read_error():
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message_sensor_error)
+
+
 # --------------------------------send email if the file was sent, to phenocam.pucv@gmail.com --------------------------
 def fileSend_ok():
     """
@@ -71,6 +75,8 @@ def fileSend_ok():
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message_fileSend)
+
+
 # --------------------------------send email if the file was sent, to phenocam.pucv@gmail.com --------------------------
 def fileSend_error(e):
     """
@@ -82,6 +88,8 @@ def fileSend_error(e):
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message_fileSend_error)
     raise e
+
+
 def general_error(e):
     """
     :return:
@@ -92,6 +100,8 @@ def general_error(e):
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message_error)
     raise e
+
+
 # --------------------------------CONNECT FTP SERVER--------------------------------------------------------------------
 ftp = FTP()
 ftp.set_debuglevel(2)
@@ -110,12 +120,13 @@ date_count = 0
 hour_now = datetime.datetime.now().strftime('%M')
 half_an_hour_zero = '00'
 half_an_hour = '30'
-check_hour = '50'    # hour to send the file via FTP
+check_hour = '50'  # hour to send the file via FTP
 # --------------------------------CONF TYPE OF SENSOR-------------------------------------------------------------------
 sensor = Adafruit_DHT.DHT11
 
 # --------------------------------CONFIG GPIO 23 FOR DHT11 DATA---------------------------------------------------------
 pin = 23
+
 
 # --------------------------------WRITE THE LOG FILE WITH THE NAME yyyy-mm-dd_dht.log-----------------------------------
 def write_log(text, fName):
@@ -168,7 +179,7 @@ try:
     while True:
 
         # print("check the date and the file name")
-# ----------------------------Check the date and the file name----------------------------------------------------------
+        # ----------------------------Check the date and the file name----------------------------------------------------------
         if date_now != str(datetime.datetime.now().strftime('%Y-%m-%d')):
 
             date_now = str(datetime.datetime.now().strftime('%Y-%m-%d'))  # save the actual day
@@ -180,10 +191,12 @@ try:
             date_now = str(datetime.datetime.now().strftime('%Y-%m-%d'))
             file_name = date_now + '_dht.log'
 
-# ------------------------Check if we can read the sensor, write the log file ------------------------------------------
-        if (datetime.datetime.now().strftime('%S') == half_an_hour_zero) or (datetime.datetime.now().strftime('%S') == half_an_hour):
+        # ------------------------Check if we can read the sensor, write the log file ------------------------------------------
+        if (datetime.datetime.now().strftime('%S') == half_an_hour_zero) or (
+                datetime.datetime.now().strftime('%S') == half_an_hour):
             print("getting temperature and humidity")
-            humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)  # Read the humidity and temperature pin = GPIO 23
+            humidity, temperature = Adafruit_DHT.read_retry(sensor,
+                                                            pin)  # Read the humidity and temperature pin = GPIO 23
             print("check if we can read the sensor")
             if humidity is not None and temperature is not None:
                 write_log("DHT Sensor - temperature is: %s" % str(temperature), file_name)  # write temperature
@@ -192,8 +205,8 @@ try:
                 write_log("Can't get data from the sensor", file_name)  # write to the log file error in the sensor.
                 sensor_read_error()
 
-# --------------------------------Check the hour------------------------------------------------------------------------
-        #print("check the hour")
+        # --------------------------------Check the hour------------------------------------------------------------------------
+        # print("check the hour")
         if datetime.datetime.now().strftime('%M') == check_hour:
             print("Sending files")
             for line in fileinput.input(log_path + file_name):
@@ -216,6 +229,7 @@ try:
                 fileSend_error(e)
             ftp.quit()
 
+            goto(170)
 # --------------------------------Write error to log file --------------------------------------------------------------
 except Exception as e:
     write_log(str(e), file_name)
