@@ -22,7 +22,6 @@ import fileinput
 import smtplib, ssl
 
 # -create a secure connection with gmail SMTP server using SMTP_SSL() of smtplib to initiate a TLS-encrypted connecton--
-from sympy.codegen.cnodes import goto
 
 port = 465  # For SSL
 smtp_server = 'smtp.gmail.com'
@@ -215,21 +214,20 @@ try:
             currentlist = os.listdir(log_path)  # save the current files in the directory tu current list
 
             newfiles = list(set(currentlist) - set(lastlist))
-            try:
-                if len(newfiles) == 0:
-                    print("No files need to upload")
-                else:
-                    for needupload in newfiles:
-                        print("uploading " + log_path + file_name + needupload)
-                        upload_file(needupload)
-                        with open(log_path + file_name, "a") as myfile:
-                            myfile.write(needupload + "\n")
+            #try:
+            if len(newfiles) == 0:
+                print("No files need to upload")
+            else:
+                for needupload in newfiles:
+                    print("uploading " + log_path + file_name + needupload)
+                    upload_file(needupload)
+                    with open(log_path + file_name, "a") as myfile:
+                        myfile.write(needupload + "\n")
                     fileSend_ok()
-            except Exception as e:
-                fileSend_error(e)
+            #except Exception as e:
+            #   fileSend_error(e)
             ftp.quit()
 
-            goto(170)
 # --------------------------------Write error to log file --------------------------------------------------------------
 except Exception as e:
     write_log(str(e), file_name)
