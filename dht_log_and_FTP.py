@@ -110,7 +110,7 @@ date_count = 0
 hour_now = datetime.datetime.now().strftime('%M')
 half_an_hour_zero = '00'
 half_an_hour = '30'
-check_hour = '16:45'    # hour to send the file via FTP
+check_hour = '60'    # hour to send the file via FTP
 # --------------------------------CONF TYPE OF SENSOR-------------------------------------------------------------------
 sensor = Adafruit_DHT.DHT11
 
@@ -167,7 +167,7 @@ try:
 
     while True:
 
-        print("check the date and the file name")
+        # print("check the date and the file name")
 # ----------------------------Check the date and the file name----------------------------------------------------------
         if date_now != str(datetime.datetime.now().strftime('%Y-%m-%d')):
 
@@ -193,8 +193,8 @@ try:
                 sensor_read_error()
 
 # --------------------------------Check the hour------------------------------------------------------------------------
-        print("check the hour")
-        if datetime.datetime.now().strftime('%H:%M') == check_hour:
+        #print("check the hour")
+        if datetime.datetime.now().strftime('%M') == check_hour:
 
             for line in fileinput.input(log_path + file_name):
                 lastlist.append(line.rstrip("\n"))  # append the current text to "lastlist"
@@ -218,7 +218,7 @@ try:
 
 # --------------------------------Write error to log file --------------------------------------------------------------
 except Exception as e:
-    write_log(str(e))
+    write_log(str(e), file_name)
     general_error(e)
 
 except KeyboardInterrupt as e:
