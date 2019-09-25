@@ -226,7 +226,7 @@ try:
                     fileSend_ok()
             #except Exception as e:
             #   fileSend_error(e)
-            ftp.quit()
+                ftp.quit()
 
 # --------------------------------Write error to log file --------------------------------------------------------------
 except Exception as e:
