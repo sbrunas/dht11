@@ -110,7 +110,7 @@ date_count = 0
 hour_now = datetime.datetime.now().strftime('%M')
 half_an_hour_zero = '00'
 half_an_hour = '30'
-check_hour = '60'    # hour to send the file via FTP
+check_hour = '50'    # hour to send the file via FTP
 # --------------------------------CONF TYPE OF SENSOR-------------------------------------------------------------------
 sensor = Adafruit_DHT.DHT11
 
@@ -195,7 +195,7 @@ try:
 # --------------------------------Check the hour------------------------------------------------------------------------
         #print("check the hour")
         if datetime.datetime.now().strftime('%M') == check_hour:
-
+            print("Sending files")
             for line in fileinput.input(log_path + file_name):
                 lastlist.append(line.rstrip("\n"))  # append the current text to "lastlist"
 
