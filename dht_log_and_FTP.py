@@ -182,13 +182,13 @@ try:
         if date_now != str(datetime.datetime.now().strftime('%Y-%m-%d')):
 
             date_now = str(datetime.datetime.now().strftime('%Y-%m-%d'))  # save the actual day
-            file_name = date_now + '_dht.log'  # save the actual file name
+            file_name = date_now + '_dht.txt'  # save the actual file name
             date_count += 1  # add one to the day count
 
         else:
 
             date_now = str(datetime.datetime.now().strftime('%Y-%m-%d'))
-            file_name = date_now + '_dht.log'
+            file_name = date_now + '_dht.txt'
 
         # ------------------------Check if we can read the sensor, write the log file ------------------------------------------
         if (datetime.datetime.now().strftime('%S') == half_an_hour_zero) or (
