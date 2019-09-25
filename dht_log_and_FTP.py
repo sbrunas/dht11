@@ -231,7 +231,7 @@ try:
 # --------------------------------Write error to log file --------------------------------------------------------------
 except Exception as e:
     write_log(str(e), file_name)
-    general_error(e)
+    general_error(str(e))
 
 except KeyboardInterrupt as e:
-    general_error(e)
+    general_error(str(e))
